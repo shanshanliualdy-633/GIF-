@@ -25,10 +25,10 @@ jobs:
 
     - name: Build EXE
       run: |
-        pyinstaller --noconsole --onefile --name="GIF转精灵图工具" gif_to_sprite_gui.py
+        pyinstaller --noconsole --onefile --name="GIF_To_Sprite_Tool" gif_to_sprite_gui.py
 
     - name: Upload EXE
       uses: actions/upload-artifact@v3
       with:
         name: GIF_Tool_Windows
-        path: dist/GIF转精灵图工具.exe
+        path: dist/GIF_To_Sprite_Tool.exe
