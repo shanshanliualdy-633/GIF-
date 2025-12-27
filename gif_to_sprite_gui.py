@@ -9,33 +9,33 @@ import threading
 class GifConverterApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("GIF 转精灵图工具")
+        self.root.title("GIF to Sprite Sheet Tool")
         self.root.geometry("500x350")
         
         # Variables
         self.file_path = tk.StringVar()
         self.horizontal_var = tk.BooleanVar()
-        self.status_var = tk.StringVar(value="请选择 GIF 文件")
+        self.status_var = tk.StringVar(value="Please select a GIF file")
 
         # UI Components
         self.create_widgets()
 
     def create_widgets(self):
         # File Selection Block
-        file_frame = tk.LabelFrame(self.root, text="输入文件", padx=10, pady=10)
+        file_frame = tk.LabelFrame(self.root, text="Input File", padx=10, pady=10)
         file_frame.pack(fill="x", padx=10, pady=5)
 
         tk.Entry(file_frame, textvariable=self.file_path, state='readonly').pack(side="left", fill="x", expand=True, padx=(0, 5))
-        tk.Button(file_frame, text="浏览...", command=self.browse_file).pack(side="right")
+        tk.Button(file_frame, text="Browse...", command=self.browse_file).pack(side="right")
 
         # Options Block
-        options_frame = tk.LabelFrame(self.root, text="选项", padx=10, pady=10)
+        options_frame = tk.LabelFrame(self.root, text="Options", padx=10, pady=10)
         options_frame.pack(fill="x", padx=10, pady=5)
 
-        tk.Checkbutton(options_frame, text="横向排布 (所有帧在一行)", variable=self.horizontal_var).pack(anchor="w")
+        tk.Checkbutton(options_frame, text="Horizontal Layout (Single Row)", variable=self.horizontal_var).pack(anchor="w")
 
         # Action Block
-        tk.Button(self.root, text="开始转换", command=self.start_conversion, bg="#4CAF50", fg="black", height=2).pack(fill="x", padx=20, pady=20)
+        tk.Button(self.root, text="Start Conversion", command=self.start_conversion, bg="#4CAF50", fg="black", height=2).pack(fill="x", padx=20, pady=20)
 
         # Status Block
         tk.Label(self.root, textvariable=self.status_var, wraplength=480).pack(pady=5)
@@ -65,7 +65,7 @@ class GifConverterApp:
             try:
                 gif = Image.open(gif_path)
             except IOError:
-                self.update_status(f"错误: 无法打开文件 {gif_path}", error=True)
+                self.update_status(f"Error: Could not open file {gif_path}", error=True)
                 return
 
             frames = []
@@ -78,7 +78,7 @@ class GifConverterApp:
 
             frame_count = len(frames)
             if frame_count == 0:
-                self.update_status("错误: GIF 中没有找到帧", error=True)
+                self.update_status("Error: No frames found in GIF", error=True)
                 return
 
             frame_width, frame_height = frames[0].size
@@ -111,12 +111,12 @@ class GifConverterApp:
 
             sprite_sheet.save(output_path)
             
-            self.update_status(f"成功! 已保存至:\n{output_path}")
-            messagebox.showinfo("成功", f"转换完成！\n保存在: {output_path}")
+            self.update_status(f"Success! Saved to:\n{output_path}")
+            messagebox.showinfo("Success", f"Conversion Complete!\nSaved to: {output_path}")
 
         except Exception as e:
-            self.update_status(f"发生错误: {str(e)}", error=True)
-            messagebox.showerror("错误", str(e))
+            self.update_status(f"Error occurred: {str(e)}", error=True)
+            messagebox.showerror("Error", str(e))
 
     def update_status(self, message, error=False):
         self.status_var.set(message)
